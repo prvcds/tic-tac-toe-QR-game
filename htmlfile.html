@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body bgcolor="lightblue">
+<table border="1" style="width:150px;height:150px;text-align:center;font-size:24px;cursor:pointer">
+  <tr><td onclick="play(this)"></td><td onclick="play(this)"></td><td onclick="play(this)"></td></tr>
+  <tr><td onclick="play(this)"></td><td onclick="play(this)"></td><td onclick="play(this)"></td></tr>
+  <tr><td onclick="play(this)"></td><td onclick="play(this)"></td><td onclick="play(this)"></td></tr>
+</table>
+<script>
+let board = ["", "", "", "", "", "", "", "", ""], player = "X";
+function play(cell) {
+  let i = cell.parentNode.rowIndex * 3 + cell.cellIndex;
+  if (!board[i]) {
+    board[i] = player;
+    cell.innerHTML = player;
+    if (checkWin(player)) return alert(player + " wins!"), reset();
+    if (!board.includes("")) return alert("It's a tie!"), reset();
+    player = player === "X" ? "O" : "X";
+  }
+}
+function checkWin(p) {
+  return [0, 3, 6].some(r => board[r] === p && board[r+1] === p && board[r+2] === p) ||
+         [0, 1, 2].some(c => board[c] === p && board[c+3] === p && board[c+6] === p) ||
+         (board[0] === p && board[4] === p && board[8] === p) || (board[2] === p && board[4] === p && board[6] === p);
+}
+function reset() {
+  board.fill("");
+  document.querySelectorAll("td").forEach(c => c.innerHTML = "");
+  player = "X";
+}
+</script>
+</body>
+</html>
